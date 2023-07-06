@@ -10,14 +10,19 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ModalsProvider } from '@mantine/modals';
 import React from 'react';
 import RouterTransition from '@/components/shared/RouterTransition';
+import Navbar from '@/components/shared/Navbar';
 
 const appendCache = createEmotionCache({ key: 'mantine', prepend: false });
 
-const App = ({ Component, pageProps }: AppProps) => {
+function App({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(
     () =>
       new QueryClient({
-        defaultOptions: { queries: { refetchOnWindowFocus: false } },
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+          },
+        },
       })
   );
 
@@ -34,6 +39,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <Hydrate state={pageProps.dehydratedState}>
           <RouterTransition />
           <ModalsProvider>
+            <Navbar />
             <Component {...pageProps} />
           </ModalsProvider>
         </Hydrate>
@@ -41,6 +47,6 @@ const App = ({ Component, pageProps }: AppProps) => {
       </QueryClientProvider>
     </MantineProvider>
   );
-};
+}
 
 export default App;
